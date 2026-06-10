@@ -1,4 +1,11 @@
-#include "metricas_ordenacao.h"
+#include <time.h>
+
+typedef struct {
+    long comparacoes;
+    long movimentacoes;
+    double tempo_execucao_ms;
+    clock_t inicio_clock;
+} metricas_ordenacao;
 
 void resetar_metricas(metricas_ordenacao *metricas) {
     if (metricas == NULL) {

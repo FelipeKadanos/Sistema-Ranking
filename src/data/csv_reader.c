@@ -1,10 +1,16 @@
-#include "csv_reader.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define CSV_LINHA_TAMANHO 256
+#define ALUNO_NOME_TAMANHO 50
+
+typedef struct {
+    int matricula;
+    char nome[ALUNO_NOME_TAMANHO];
+    float nota;
+    int faltas;
+} Aluno;
 
 static void remover_quebra_linha(char *texto) {
     size_t tamanho;

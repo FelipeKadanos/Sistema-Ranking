@@ -1,10 +1,58 @@
-#include "gerenciador_ordenacao.h"
+#include <time.h>
 
-#include "bubble_sort.h"
-#include "insertion_sort.h"
-#include "merge_sort.h"
-#include "quick_sort.h"
-#include "selection_sort.h"
+#define ALUNO_NOME_TAMANHO 50
+
+typedef struct {
+    int matricula;
+    char nome[ALUNO_NOME_TAMANHO];
+    float nota;
+    int faltas;
+} Aluno;
+
+typedef struct {
+    long comparacoes;
+    long movimentacoes;
+    double tempo_execucao_ms;
+    clock_t inicio_clock;
+} metricas_ordenacao;
+
+typedef enum {
+    NOTA_CRESCENTE = 1,
+    NOTA_DECRESCENTE,
+    NOME,
+    FALTAS,
+    COMBINADO
+} tipo_ordenacao;
+
+typedef enum {
+    QUICK_SORT = 1,
+    BUBBLE_SORT,
+    INSERTION_SORT,
+    SELECTION_SORT,
+    MERGE_SORT
+} algoritmo_ordenacao;
+
+void resetar_metricas(metricas_ordenacao *metricas);
+void quick_sort(Aluno *alunos,
+                int quantidade,
+                tipo_ordenacao criterio,
+                metricas_ordenacao *metricas);
+void bubble_sort(Aluno *alunos,
+                 int quantidade,
+                 tipo_ordenacao criterio,
+                 metricas_ordenacao *metricas);
+void insertion_sort(Aluno *alunos,
+                    int quantidade,
+                    tipo_ordenacao criterio,
+                    metricas_ordenacao *metricas);
+void selection_sort(Aluno *alunos,
+                    int quantidade,
+                    tipo_ordenacao criterio,
+                    metricas_ordenacao *metricas);
+void merge_sort(Aluno *alunos,
+                int quantidade,
+                tipo_ordenacao criterio,
+                metricas_ordenacao *metricas);
 
 const char *obter_nome_criterio(tipo_ordenacao criterio) {
     switch (criterio) {

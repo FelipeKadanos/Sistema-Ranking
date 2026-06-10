@@ -1,6 +1,30 @@
-#include "comparador.h"
-
 #include <string.h>
+
+#include <time.h>
+
+#define ALUNO_NOME_TAMANHO 50
+
+typedef struct {
+    int matricula;
+    char nome[ALUNO_NOME_TAMANHO];
+    float nota;
+    int faltas;
+} Aluno;
+
+typedef struct {
+    long comparacoes;
+    long movimentacoes;
+    double tempo_execucao_ms;
+    clock_t inicio_clock;
+} metricas_ordenacao;
+
+typedef enum {
+    NOTA_CRESCENTE = 1,
+    NOTA_DECRESCENTE,
+    NOME,
+    FALTAS,
+    COMBINADO
+} tipo_ordenacao;
 
 static int comparar_texto(const char *texto_a, const char *texto_b) {
     int resultado = strcmp(texto_a, texto_b);

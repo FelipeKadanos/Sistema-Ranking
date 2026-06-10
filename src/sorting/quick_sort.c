@@ -1,6 +1,36 @@
-#include "quick_sort.h"
+#include <time.h>
 
-#include "comparador.h"
+#define ALUNO_NOME_TAMANHO 50
+
+typedef struct {
+    int matricula;
+    char nome[ALUNO_NOME_TAMANHO];
+    float nota;
+    int faltas;
+} Aluno;
+
+typedef struct {
+    long comparacoes;
+    long movimentacoes;
+    double tempo_execucao_ms;
+    clock_t inicio_clock;
+} metricas_ordenacao;
+
+typedef enum {
+    NOTA_CRESCENTE = 1,
+    NOTA_DECRESCENTE,
+    NOME,
+    FALTAS,
+    COMBINADO
+} tipo_ordenacao;
+
+int comparar_alunos(const Aluno *a,
+                    const Aluno *b,
+                    tipo_ordenacao criterio,
+                    metricas_ordenacao *metricas);
+void resetar_metricas(metricas_ordenacao *metricas);
+void iniciar_temporizacao(metricas_ordenacao *metricas);
+void finalizar_temporizacao(metricas_ordenacao *metricas);
 
 static void trocar_alunos(Aluno *a, Aluno *b, metricas_ordenacao *metricas) {
     Aluno temporario;

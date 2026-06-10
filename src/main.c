@@ -1,13 +1,56 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
-#include "data/csv_reader.h"
-#include "generators/dataset_generator.h"
-#include "metrics/metricas_ordenacao.h"
-#include "models/aluno.h"
-#include "sorting/gerenciador_ordenacao.h"
-#include "ui/menu.h"
+#define ALUNO_NOME_TAMANHO 50
+
+typedef struct {
+    int matricula;
+    char nome[ALUNO_NOME_TAMANHO];
+    float nota;
+    int faltas;
+} Aluno;
+
+typedef struct {
+    long comparacoes;
+    long movimentacoes;
+    double tempo_execucao_ms;
+    clock_t inicio_clock;
+} metricas_ordenacao;
+
+typedef enum {
+    NOTA_CRESCENTE = 1,
+    NOTA_DECRESCENTE,
+    NOME,
+    FALTAS,
+    COMBINADO
+} tipo_ordenacao;
+
+typedef enum {
+    QUICK_SORT = 1,
+    BUBBLE_SORT,
+    INSERTION_SORT,
+    SELECTION_SORT,
+    MERGE_SORT
+} algoritmo_ordenacao;
+
+int carregar_alunos_csv(const char *nome_arquivo, Aluno **alunos, int *quantidade);
+void gerar_dataset_csv(const char *nome_arquivo, int quantidade_registros);
+void gerar_datasets_padrao(void);
+void resetar_metricas(metricas_ordenacao *metricas);
+void exibir_menu(void);
+void exibir_criterios(void);
+void exibir_algoritmos(void);
+void exibir_top_alunos(const Aluno *alunos, int quantidade, int limite);
+void exibir_metricas(const metricas_ordenacao *metricas);
+const char *obter_nome_criterio(tipo_ordenacao criterio);
+const char *obter_nome_algoritmo(algoritmo_ordenacao algoritmo);
+void executar_ordenacao(algoritmo_ordenacao algoritmo,
+                        Aluno *alunos,
+                        int quantidade,
+                        tipo_ordenacao criterio,
+                        metricas_ordenacao *metricas);
 
 static void limpar_buffer_entrada(void) {
     int caractere;

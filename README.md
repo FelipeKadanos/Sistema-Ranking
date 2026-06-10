@@ -9,6 +9,7 @@ O sistema le registros de alunos a partir de arquivos CSV, permite ordenacoes po
 Neste esqueleto:
 
 - a arquitetura e modular;
+- os modulos nao dependem de arquivos `.h`, pois os tipos e prototipos necessarios ficam declarados nos proprios arquivos `.c`;
 - apenas o `Quick Sort` esta implementado por completo;
 - `Bubble Sort`, `Insertion Sort`, `Selection Sort` e `Merge Sort` possuem placeholder com `TODO`;
 - o projeto compila sem erros e esta pronto para expansao futura.
@@ -19,35 +20,22 @@ Neste esqueleto:
 src/
 |-- main.c
 |-- models/
-|   |-- aluno.h
 |   `-- aluno.c
 |-- data/
-|   |-- csv_reader.h
 |   `-- csv_reader.c
 |-- ui/
-|   |-- menu.h
 |   `-- menu.c
 |-- metrics/
-|   |-- metricas_ordenacao.h
 |   `-- metricas_ordenacao.c
 |-- sorting/
-|   |-- tipos_ordenacao.h
-|   |-- comparador.h
 |   |-- comparador.c
-|   |-- gerenciador_ordenacao.h
 |   |-- gerenciador_ordenacao.c
-|   |-- quick_sort.h
 |   |-- quick_sort.c
-|   |-- bubble_sort.h
 |   |-- bubble_sort.c
-|   |-- insertion_sort.h
 |   |-- insertion_sort.c
-|   |-- selection_sort.h
 |   |-- selection_sort.c
-|   |-- merge_sort.h
 |   `-- merge_sort.c
 `-- generators/
-    |-- dataset_generator.h
     `-- dataset_generator.c
 
 datasets/

@@ -1,6 +1,24 @@
-#include "menu.h"
-
 #include <stdio.h>
+
+#include <time.h>
+
+#define ALUNO_NOME_TAMANHO 50
+
+typedef struct {
+    int matricula;
+    char nome[ALUNO_NOME_TAMANHO];
+    float nota;
+    int faltas;
+} Aluno;
+
+typedef struct {
+    long comparacoes;
+    long movimentacoes;
+    double tempo_execucao_ms;
+    clock_t inicio_clock;
+} metricas_ordenacao;
+
+void imprimir_aluno(const Aluno *aluno);
 
 void exibir_menu(void) {
     printf("\n===== Sistema de Ranking de Desempenho Academico =====\n");
