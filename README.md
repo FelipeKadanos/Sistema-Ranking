@@ -1,4 +1,11 @@
 # Sistema de Ranking de Desempenho Acadêmico
+## Autores
+
+| Autor | GitHub |
+| --- | --- |
+| ***Felipe Kadanos*** | [FelipeKadanos](https://github.com/FelipeKadanos) |
+| ***Marcos Ferrari*** | [marcosferraridev](https://github.com/marcosferraridev) |
+
 ## Data Processing
 
 > Atividade a ser realizada em grupo (até 3 pessoas).
