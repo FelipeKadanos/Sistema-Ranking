@@ -1,50 +1,31 @@
-# Sistema de Ranking de Desempenho Academico
+# Sistema de Ranking de Desempenho Acadêmico
+## Data Processing
 
-Projeto academico em C, compativel com `GCC` e `Dev-C++`, voltado para testes de desempenho de algoritmos de ordenacao aplicados a registros de alunos.
+> Atividade a ser realizada em grupo (até 3 pessoas).
+>
+> Deve ser utilizada a linguagem de programação C.
+>
+> O código deve ser postado no Blackboard como entregável e a nota será concedida juntamente com a defesa de código em sala de aula.
 
-## Visao Geral
+---
 
-O sistema le registros de alunos a partir de arquivos CSV, permite ordenacoes por multiplos criterios e exibe metricas de desempenho da ordenacao executada.
+## 🎯 Contexto
 
-Neste esqueleto:
+Uma universidade está desenvolvendo um sistema para analisar o desempenho dos alunos em diferentes disciplinas. O sistema precisa:
 
-- a arquitetura e modular;
-- os modulos nao dependem de arquivos `.h`, pois os tipos e prototipos necessarios ficam declarados nos proprios arquivos `.c`;
-- apenas o `Quick Sort` esta implementado por completo;
-- `Bubble Sort`, `Insertion Sort`, `Selection Sort` e `Merge Sort` possuem placeholder com `TODO`;
-- o projeto compila sem erros e esta pronto para expansao futura.
+- Processar grandes volumes de dados
+- Ordenar alunos com base em diferentes critérios
+- Permitir análises flexíveis e comparações de desempenho
 
-## Estrutura do Projeto
+Sua equipe foi contratada para desenvolver um módulo de ordenação altamente eficiente, capaz de lidar com diferentes cenários de ordenação.
 
-```text
-src/
-|-- main.c
-|-- models/
-|   `-- aluno.c
-|-- data/
-|   `-- csv_reader.c
-|-- ui/
-|   `-- menu.c
-|-- metrics/
-|   `-- metricas_ordenacao.c
-|-- sorting/
-|   |-- comparador.c
-|   |-- gerenciador_ordenacao.c
-|   |-- quick_sort.c
-|   |-- bubble_sort.c
-|   |-- insertion_sort.c
-|   |-- selection_sort.c
-|   `-- merge_sort.c
-`-- generators/
-    `-- dataset_generator.c
+Desenvolver um programa em C que manipule registros de alunos e permita ordenações complexas utilizando múltiplos algoritmos.
 
-datasets/
-|-- alunos_100.csv
-|-- alunos_1000.csv
-`-- alunos_10000.csv
-```
+---
 
-## Estrutura do Aluno
+## 🗃️ Estrutura dos Dados
+
+Cada aluno deve ser representado por uma `struct`:
 
 ```c
 typedef struct {
@@ -55,227 +36,72 @@ typedef struct {
 } Aluno;
 ```
 
-## Metricas
+---
 
-O projeto utiliza a estrutura:
+## ⚙️ Requisitos Funcionais
 
-```c
-typedef struct {
-    long comparacoes;
-    long movimentacoes;
-    double tempo_execucao_ms;
-} metricas_ordenacao;
-```
+### 1. Entrada de dados
 
-Funcoes auxiliares implementadas:
+Leitura a partir de:
 
-- resetar metricas;
-- iniciar temporizacao;
-- finalizar temporizacao.
+- Arquivo `.txt` ou `.csv`
+- OU
+- Geração automática (`100`, `1000`, `10000` alunos)
 
-## Tipos de Ordenacao
+Os dados devem incluir:
 
-```c
-typedef enum {
-    NOTA_CRESCENTE,
-    NOTA_DECRESCENTE,
-    NOME,
-    FALTAS,
-    COMBINADO
-} tipo_ordenacao;
-```
+- Matrícula única
+- Nome
+- Nota (`0` a `10`)
+- Número de faltas
 
-## Comparador Generico
+### 2. Ordenações MULTICRITÉRIO
 
-Todos os algoritmos utilizam um comparador centralizado com os criterios:
+O sistema deve permitir ordenar por:
 
-- `NOTA_CRESCENTE`: menor nota primeiro;
-- `NOTA_DECRESCENTE`: maior nota primeiro;
-- `NOME`: ordem alfabetica;
-- `FALTAS`: menor numero de faltas primeiro;
-- `COMBINADO`: maior nota, depois menor numero de faltas e, em novo empate, ordem alfabetica.
+- Nota (crescente e decrescente)
+- Nome (ordem alfabética)
+- Faltas
+- Critério combinado:
+  Maior nota
+  Em caso de empate → menor número de faltas
+  Persistindo empate → ordem alfabética
 
-## Gerenciador de Ordenacao
+### 3. Algoritmos obrigatórios
 
-O modulo `gerenciador_ordenacao` despacha a execucao para o algoritmo selecionado:
+- Bubble Sort
+- Selection Sort
+- Insertion Sort
+- Quick Sort
+- Merge Sort
 
-```c
-void executar_ordenacao(
-    algoritmo_ordenacao algoritmo,
-    Aluno *alunos,
-    int quantidade,
-    tipo_ordenacao criterio,
-    metricas_ordenacao *metricas
-);
-```
+### 4. Análise de desempenho avançada
 
-## CSV
+Para cada algoritmo:
 
-Formato esperado:
+- Tempo de execução
+- Número de comparações
+- Número de movimentações
+
+### 5. Interface mais rica
+
+Menu exemplo:
 
 ```text
-matricula;nome;nota;faltas
-```
-
-Exemplo:
-
-```text
-1;Joao Silva;8.5;2
-2;Maria Souza;9.0;1
-```
-
-O leitor CSV faz apenas leitura. Escrita nao foi implementada no modulo de importacao, apenas no gerador de datasets.
-
-## Menu
-
-O menu funcional oferece:
-
-```text
-1 - Carregar CSV
-2 - Escolher criterio de ordenacao
-3 - Escolher algoritmo
-4 - Executar ordenacao
-5 - Mostrar Top 10 alunos
-6 - Mostrar metricas
+1 - Carregar dados de arquivo
+2 - Gerar dados aleatórios
+3 - Escolher critério de ordenação
+4 - Executar algoritmo específico
+5 - Comparar todos os algoritmos
+6 - Mostrar Top 10 alunos
+7 - Salvar resultados em arquivo
 0 - Sair
 ```
 
-Fluxo esperado:
+### 6. Saída
 
-- carregar um CSV;
-- escolher criterio;
-- escolher algoritmo;
-- executar a ordenacao;
-- visualizar o resultado;
-- visualizar as metricas.
-
-## Geracao de Datasets
-
-O projeto possui um modulo reutilizavel em `src/generators/` responsavel por:
-
-- gerar matriculas unicas;
-- gerar nomes brasileiros aleatorios;
-- gerar notas entre `0` e `10`;
-- gerar faltas entre `0` e `30`;
-- exportar para CSV usando `;`.
-
-Funcao principal:
-
-```c
-void gerar_dataset_csv(const char *nome_arquivo, int quantidade_registros);
-```
-
-Exemplos:
-
-```c
-gerar_dataset_csv("datasets/alunos_100.csv", 100);
-gerar_dataset_csv("datasets/alunos_1000.csv", 1000);
-gerar_dataset_csv("datasets/alunos_10000.csv", 10000);
-```
-
-### Geracao automatica
-
-Ao iniciar o programa normalmente, os arquivos abaixo sao gerados automaticamente caso nao existam:
-
-- `datasets/alunos_100.csv`
-- `datasets/alunos_1000.csv`
-
-O arquivo `datasets/alunos_10000.csv` nao e gerado automaticamente.
-
-### Como gerar novamente os datasets
-
-Gerar os datasets padrao:
-
-```bash
-./sistema_ranking --gerar-padrao
-```
-
-Gerar um dataset de qualquer tamanho:
-
-```bash
-./sistema_ranking --gerar datasets/meu_dataset.csv 500
-```
-
-Gerar especificamente o dataset de `10000` registros:
-
-```bash
-./sistema_ranking --gerar datasets/alunos_10000.csv 10000
-```
-
-## Compilacao com GCC
-
-No Windows com `GCC`:
-
-```bash
-gcc -Wall -Wextra -pedantic -std=c11 ^
-src/main.c ^
-src/models/aluno.c ^
-src/data/csv_reader.c ^
-src/ui/menu.c ^
-src/metrics/metricas_ordenacao.c ^
-src/sorting/comparador.c ^
-src/sorting/gerenciador_ordenacao.c ^
-src/sorting/quick_sort.c ^
-src/sorting/bubble_sort.c ^
-src/sorting/insertion_sort.c ^
-src/sorting/selection_sort.c ^
-src/sorting/merge_sort.c ^
-src/generators/dataset_generator.c ^
--o sistema_ranking.exe
-```
-
-No Linux ou macOS:
-
-```bash
-gcc -Wall -Wextra -pedantic -std=c11 \
-src/main.c \
-src/models/aluno.c \
-src/data/csv_reader.c \
-src/ui/menu.c \
-src/metrics/metricas_ordenacao.c \
-src/sorting/comparador.c \
-src/sorting/gerenciador_ordenacao.c \
-src/sorting/quick_sort.c \
-src/sorting/bubble_sort.c \
-src/sorting/insertion_sort.c \
-src/sorting/selection_sort.c \
-src/sorting/merge_sort.c \
-src/generators/dataset_generator.c \
--o sistema_ranking
-```
-
-## Exemplos de Linhas dos Datasets
-
-Exemplo ilustrativo de `alunos_100.csv`:
-
-```text
-100000;Joao Silva;8.4;3
-100001;Maria Souza;9.1;1
-100002;Pedro Lima;6.7;8
-```
-
-Exemplo ilustrativo de `alunos_1000.csv`:
-
-```text
-100000;Ana Costa;7.5;4
-100001;Lucas Almeida;5.9;12
-100002;Julia Gomes;9.8;0
-```
-
-Exemplo ilustrativo de como seria `alunos_10000.csv`:
-
-```text
-100000;Gabriel Santos;8.0;6
-100001;Beatriz Rocha;7.2;11
-100002;Rafael Dias;9.4;2
-```
-
-## Estado Atual
-
-- `Quick Sort`: implementado completamente;
-- `Bubble Sort`: placeholder;
-- `Insertion Sort`: placeholder;
-- `Selection Sort`: placeholder;
-- `Merge Sort`: placeholder.
-
-Arquitetura pronta para evolucao, testes comparativos e expansao futura.
+- Exibir ranking completo ou parcial (Top N)
+- Exportar resultado ordenado para arquivo
+- Mostrar métricas de desempenhompleto ou parcial (Top N)
+- Exportar resultado ordenado para arquivo
+- Mostrar métricas de desempenho
